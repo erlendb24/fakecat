@@ -7,3 +7,4 @@ flags:
 -n number all lines  
 -e $ at the end of lines  
 -s squeeze lines (no more than one newline at a time)
+-t Tab characters are printed as ^I
