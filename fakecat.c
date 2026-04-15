@@ -113,9 +113,7 @@ int main(int argc, char **argv) {
         result = 0;
         int line_number = 1;
         char line_to_buf[100] = { 0 };
-        if (flags.number_all == ON || 
-            (flags.number_non_blank == ON && 
-             !isspace((unsigned char)temp_buf[0]))) {
+        if (flags.number_all == ON || (flags.number_non_blank == ON && !isspace((unsigned char)temp_buf[0]))) {
             write(STDOUT, "1", 1);
             write(STDOUT, "  ", 2);
         }
@@ -132,11 +130,11 @@ int main(int argc, char **argv) {
                         return -1;
                     }
             }
-            if (prev_char == '\n' && flags.number_all) {
+            if (prev_char == '\n' && flags.number_all == ON) {
                 line_number++;
                 snprintf(line_to_buf, 6, "%d  ", line_number);
                 write(STDOUT, line_to_buf, 4);
-            } else if (prev_char == '\n' && *temp_buf != '\n') {
+            } else if (prev_char == '\n' && *temp_buf != '\n' && flags.number_non_blank == ON) {
                 line_number++;
                 snprintf(line_to_buf, 6, "%d  ", line_number);
                 write(STDOUT, line_to_buf, 4);
