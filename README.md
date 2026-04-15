@@ -6,3 +6,4 @@ flags:
 -b number non blank lines  
 -n number all lines  
 -e $ at the end of lines  
+-s squeeze lines (no more than one newline at a time)

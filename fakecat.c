@@ -124,6 +124,13 @@ int main(int argc, char **argv) {
                         write(STDOUT, "$", 1);
                     }
                 default:
+                    if (flags.squeeze == ON) {
+                        if (prev_char == '\n' && *temp_buf == '\n') {
+                            prev_char = *temp_buf;
+                            temp_buf++;
+                            break;
+                        }
+                    }
                     prev_char = *temp_buf;
                     if ((result = write(STDOUT, temp_buf++, 1)) == -1) { 
                         free(buf);
