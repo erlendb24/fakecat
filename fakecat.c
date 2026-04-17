@@ -159,12 +159,12 @@ int main(int argc, char **argv) {
             }
             if (prev_char == '\n' && flags.number_all == ON && flags.b_and_n == OFF) {
                 line_number++;
-                snprintf(line_to_buf, 6 + (int)(line_number / 10), "%d  ", line_number);
-                write(STDOUT, line_to_buf, 4);
+                int len = snprintf(line_to_buf, sizeof(buf), "%d  ", line_number);
+                write(STDOUT, line_to_buf, len);
             } else if (prev_char == '\n' && *temp_buf != '\n' && flags.number_non_blank == ON) {
                 line_number++;
-                snprintf(line_to_buf, 6 + (int)(line_number / 10), "%d  ", line_number);
-                write(STDOUT, line_to_buf, 4);
+                int len = snprintf(line_to_buf, sizeof(buf), "%d  ", line_number);
+                write(STDOUT, line_to_buf, len);
             }
         }
         free(buf);
