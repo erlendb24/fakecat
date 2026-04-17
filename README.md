@@ -1,6 +1,8 @@
 # fakecat
 
-fakecat, tries to do most things FreeBSD cat does
+fakecat, tries to do most things FreeBSD cat does within the limitations of KNR 8.1. 
+The exercise equires the use of `open()`, `close()`, `read()` and `write()`, which ends up making 
+outputting stdin very impractical.
 
 flags:  
 -b number non blank lines  
