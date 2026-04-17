@@ -60,15 +60,15 @@ int main(int argc, char **argv) {
     }
 
     argc -= optind;
-    printf("Active flags: \n%6d\n%6d\n%6d\n%6d\n%6d\n%6d\n%6d\n", 
-           flags.number_non_blank,
-           flags.number_all, 
-           flags.b_and_n,
-           flags.display_non_printing, 
-           flags.dollar_sign_at_end, 
-           flags.tab_as_i, 
-           flags.squeeze);
-
+    // printf("Active flags: \n%6d\n%6d\n%6d\n%6d\n%6d\n%6d\n%6d\n", 
+    //        flags.number_non_blank,
+    //        flags.number_all, 
+    //        flags.b_and_n,
+    //        flags.display_non_printing, 
+    //        flags.dollar_sign_at_end, 
+    //        flags.tab_as_i, 
+    //        flags.squeeze);
+    //
     int fd = -1;
     off_t file_size = 0;
     int result = 0;
@@ -167,7 +167,6 @@ int main(int argc, char **argv) {
                 write(STDOUT, line_to_buf, 4);
             }
         }
-
         free(buf);
     }
 }
