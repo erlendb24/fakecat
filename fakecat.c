@@ -159,11 +159,11 @@ int main(int argc, char **argv) {
             }
             if (prev_char == '\n' && flags.number_all == ON && flags.b_and_n == OFF) {
                 line_number++;
-                int len = snprintf(line_to_buf, sizeof(buf), "%d  ", line_number);
+                int len = snprintf(line_to_buf, sizeof(line_to_buf), "%d  ", line_number);
                 write(STDOUT, line_to_buf, len);
             } else if (prev_char == '\n' && *temp_buf != '\n' && flags.number_non_blank == ON) {
                 line_number++;
-                int len = snprintf(line_to_buf, sizeof(buf), "%d  ", line_number);
+                int len = snprintf(line_to_buf, sizeof(line_to_buf), "%d  ", line_number);
                 write(STDOUT, line_to_buf, len);
             }
         }
