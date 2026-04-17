@@ -7,11 +7,13 @@
 
 #define STDOUT 1
 #define ON 1
+#define OFF 0
 
 typedef struct {
     //b and n
     char number_non_blank;
     char number_all;
+    char b_and_n;
 
     //v, e and t
     char display_non_printing;
@@ -53,10 +55,15 @@ int main(int argc, char **argv) {
         }
     }
 
+    if (flags.number_non_blank == ON && flags.number_all == ON) {
+        flags.b_and_n = ON;
+    }
+
     argc -= optind;
-    printf("Active flags: \n%6d\n%6d\n%6d\n%6d\n%6d\n%6d\n", 
+    printf("Active flags: \n%6d\n%6d\n%6d\n%6d\n%6d\n%6d\n%6d\n", 
            flags.number_non_blank,
            flags.number_all, 
+           flags.b_and_n,
            flags.display_non_printing, 
            flags.dollar_sign_at_end, 
            flags.tab_as_i, 
@@ -108,12 +115,13 @@ int main(int argc, char **argv) {
 
         char* temp_buf = buf;
 
-        char prev_char;
+        char prev_char = 0;
 
         result = 0;
         int line_number = 1;
         char line_to_buf[100] = { 0 };
-        if (flags.number_all == ON || (flags.number_non_blank == ON && !isspace((unsigned char)temp_buf[0]))) {
+        if (flags.number_all == ON || (flags.number_non_blank == ON 
+            && !isspace((unsigned char)temp_buf[0]))) {
             write(STDOUT, "1", 1);
             write(STDOUT, "  ", 2);
         }
@@ -122,6 +130,18 @@ int main(int argc, char **argv) {
                 case '\n':
                     if (flags.dollar_sign_at_end == ON) {
                         write(STDOUT, "$", 1);
+                    }
+                case '\t':
+                    if (*temp_buf == '\t') {
+                        if (flags.tab_as_i == ON) {
+                            if ((result = write(STDOUT, "^I", 2)) == -1) { 
+                                free(buf);
+                                return -1;
+                            }
+                            prev_char = *temp_buf;
+                            temp_buf++;
+                            break;
+                        }
                     }
                 default:
                     if (flags.squeeze == ON) {
@@ -137,13 +157,13 @@ int main(int argc, char **argv) {
                         return -1;
                     }
             }
-            if (prev_char == '\n' && flags.number_all == ON) {
+            if (prev_char == '\n' && flags.number_all == ON && flags.b_and_n == OFF) {
                 line_number++;
-                snprintf(line_to_buf, 6, "%d  ", line_number);
+                snprintf(line_to_buf, 6 + (int)(line_number / 10), "%d  ", line_number);
                 write(STDOUT, line_to_buf, 4);
             } else if (prev_char == '\n' && *temp_buf != '\n' && flags.number_non_blank == ON) {
                 line_number++;
-                snprintf(line_to_buf, 6, "%d  ", line_number);
+                snprintf(line_to_buf, 6 + (int)(line_number / 10), "%d  ", line_number);
                 write(STDOUT, line_to_buf, 4);
             }
         }
